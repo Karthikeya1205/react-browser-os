@@ -1,0 +1,577 @@
+:root {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #e5e5e5;
+  background: #1c1c1e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  font: inherit;
+}
+
+/* Desktop Environment */
+.desktop-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1c1c1e;
+  background-image: radial-gradient(circle at 50% 30%, #2c2c2e 0%, #1c1c1e 70%);
+}
+
+/* Launcher (Desktop Icons) */
+.desktop-launcher {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 24px;
+  height: calc(100% - 80px);
+  /* Avoid taskbar */
+  align-content: flex-start;
+}
+
+.launch-button {
+  border: none;
+  background: transparent;
+  width: 80px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.launch-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(4px);
+}
+
+.launch-button svg {
+  color: #e5e5e5;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  opacity: 0.9;
+}
+
+.app-label {
+  font-size: 11px;
+  color: #e5e5e5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  line-height: 1.2;
+  font-weight: 500;
+  max-width: 100%;
+  word-wrap: break-word;
+  opacity: 0.9;
+}
+
+.desktop-canvas {
+  position: absolute;
+  inset: 0 0 48px;
+}
+
+/* Window Styles */
+.window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(40, 40, 42, 0.65);
+  color: #e5e5e5;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    /* Subtle inset highlight */
+    0 20px 50px -12px rgba(0, 0, 0, 0.5);
+  /* Soft black depth */
+  overflow: hidden;
+  transition: width 0.2s, height 0.2s, top 0.2s, left 0.2s, transform 0.2s;
+  animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(18px);
+}
+
+/* Window Styles */
+.window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+    rgba(35, 35, 38, 0.65);
+  /* Darker, slightly transparent */
+  color: #e5e5e5;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 15px 40px -15px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  opacity: 0.95;
+  /* Inactive windows slightly faded */
+  backdrop-filter: blur(12px);
+  /* Softer blur for background */
+
+  /* Smooth transitions for all changing properties */
+  transition:
+    width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    left 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.1s linear,
+    /* Faster transform for drag */
+    opacity 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    backdrop-filter 0.2s ease;
+
+  /* Subtle Scale In */
+  animation: scaleIn 0.15s cubic-bezier(0.2, 0, 0, 1);
+  transform-origin: center;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.window.is-dragging {
+  transition: none !important;
+  box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.7);
+  opacity: 0.98;
+  z-index: 9999 !important;
+  /* Force top during drag */
+  cursor: grabbing;
+}
+
+.window.active {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+    rgba(45, 45, 48, 0.85);
+  /* Brighter, more opaque */
+  border-color: rgba(255, 255, 255, 0.15);
+  /* Sharper border */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 40px 80px -20px rgba(0, 0, 0, 0.65);
+  /* Deep shadow */
+  opacity: 1;
+  backdrop-filter: blur(24px);
+  /* Strong blur for focus */
+}
+
+/* Ensure inline z-index takes precedence for ordering */
+
+.window.maximized {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 44px;
+  /* Slightly taller for radius 18px */
+  padding: 0 14px 0 16px;
+  background: transparent;
+  /* Let window bg show through */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #d4d4d4;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.window-titlebar:active {
+  cursor: grabbing;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.window-title {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  opacity: 0.85;
+  color: #e5e5e5;
+  text-align: center;
+  flex: 1;
+  /* Center title */
+  margin-right: -58px;
+  /* Offset controls width to center perfectly */
+}
+
+/* Start controls on left (Mac style) or Right (Windows style)? 
+   Current structure: Title then Controls. 
+   Let's keep Controls on right but minimal.
+*/
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  /* Push to right */
+}
+
+.window-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+
+.window-control:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+/* Traffic lights colors on hover */
+.window-control:nth-child(1):hover {
+  background: #f59e0b;
+}
+
+/* Minimize - Yellow */
+.window-control:nth-child(2):hover {
+  background: #10b981;
+}
+
+/* Maximize - Green */
+.window-control:nth-child(3):hover {
+  background: #ef4444;
+}
+
+/* Close - Red */
+
+.window-content {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+  background: transparent;
+  color: #d4d4d4;
+}
+
+/* Resize Handles */
+.window-resize-handle {
+  position: absolute;
+  background: transparent;
+  z-index: 10;
+}
+
+.window-resize-handle.n {
+  top: -4px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  cursor: n-resize;
+}
+
+.window-resize-handle.s {
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  cursor: s-resize;
+}
+
+.window-resize-handle.e {
+  top: 0;
+  bottom: 0;
+  right: -4px;
+  width: 8px;
+  cursor: e-resize;
+}
+
+.window-resize-handle.w {
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  width: 8px;
+  cursor: w-resize;
+}
+
+.window-resize-handle.ne {
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+  z-index: 11;
+}
+
+.window-resize-handle.nw {
+  top: -4px;
+  left: -4px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+  z-index: 11;
+}
+
+.window-resize-handle.se {
+  bottom: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+  z-index: 11;
+}
+
+.window-resize-handle.sw {
+  bottom: -4px;
+  left: -4px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+  z-index: 11;
+}
+
+/* Taskbar */
+.taskbar {
+  position: absolute;
+  inset: auto 0 0;
+  height: 52px;
+  /* Slightly taller */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  /* Subtle top border */
+  background: rgba(30, 30, 32, 0.75);
+  backdrop-filter: blur(20px);
+  z-index: 5000;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.taskbar-item {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  /* Softer radius */
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.taskbar-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  /* Slightly lighter than active */
+  transform: scale(1.1);
+  color: #fff;
+}
+
+.taskbar-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  box-shadow: inset 0 -2px 0 0 rgba(255, 255, 255, 0.6);
+  /* Indicator */
+}
+
+.taskbar-item.active:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Time Machine UI */
+.time-machine-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.time-machine-toggle {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.time-machine-toggle:hover,
+.time-machine-toggle.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.time-machine-ui {
+  position: absolute;
+  bottom: 70px;
+  right: 12px;
+  width: 320px;
+  background: rgba(40, 40, 42, 0.85);
+  /* Match window theme */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  padding: 18px;
+  z-index: 5000;
+  backdrop-filter: blur(24px);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.time-machine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.time-machine-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #e5e5e5;
+  text-transform: uppercase;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #737373;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+.time-machine-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.time-slider {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #fff;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  appearance: auto;
+}
+
+.snapshot-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #a3a3a3;
+  font-variant-numeric: tabular-nums;
+}
+
+.total-snapshots {
+  color: #525252;
+}
+
+/* App Panel (Default) */
+.app-panel {
+  padding: 24px;
+  color: #e5e5e5;
+}
+
+.app-panel h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.app-panel p {
+  margin: 0;
+  color: #a3a3a3;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .desktop-launcher {
+    top: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+
+  .launch-button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
