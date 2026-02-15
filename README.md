@@ -77,6 +77,7 @@ https://github.com/user-attachments/assets/3b422d76-e2a8-4c8a-9a24-ee42cff119be
 <img width="1907" height="913" alt="browser-os-demo png" src="https://github.com/user-attachments/assets/c0443a3f-7da2-4580-a75d-8b56c0bc964e" />
 
 
+<img width="276" height="162" alt="Screenshot 2026-02-15 180831" src="https://github.com/user-attachments/assets/70dd7b30-3c48-430c-8d82-808219fa9060" />
 
 ## 📄 License
 
