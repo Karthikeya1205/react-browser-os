@@ -2,7 +2,11 @@
 
 A polished, high-performance web-based operating system interface built with **React**, **TypeScript**, and **Zustand**. This project pushes the boundaries of browser-based UIs with 60fps glassmorphism effects, persistent state, and time-travel capabilities.
 
-![Browser OS Demo](./public/browser-os-demo.png)
+
+https://github.com/user-attachments/assets/3b422d76-e2a8-4c8a-9a24-ee42cff119be
+
+
+
 
 ## 🚀 Key Features
 
@@ -69,26 +73,10 @@ A polished, high-performance web-based operating system interface built with **R
 - **Resize**: Drag any edge or corner of a window.
 - **Time Machine**: Click the Clock/History icon in the bottom-right of the taskbar to open the timeline.
 
-## 🚀 Deployment
 
-### GitHub Pages (Automated)
+<img width="1907" height="913" alt="browser-os-demo png" src="https://github.com/user-attachments/assets/c0443a3f-7da2-4580-a75d-8b56c0bc964e" />
 
-This project includes a GitHub Actions workflow that automatically deploys to GitHub Pages on every push to `main`.
 
-1. Push your code to GitHub.
-2. Go to **Settings > Pages**.
-3. Under **Build and deployment**, select **Source** as `GitHub Actions`.
-4. The site will be live at `https://Karthikeya1205.github.io/react-browser-os/`.
-
-**Note:** If your repository name is not `react-browser-os`, update the `base` URL in `vite.config.ts`.
-
-## 📸 Visual Assets
-
-To showcase the project:
-1. Record a screen capture of the desktop interactions.
-2. Save it as `public/demo.mp4`.
-3. Add a screenshot as `public/browser-os-demo.png`.
-4. Update this README to embed the video/image.
 
 ## 📄 License
 
